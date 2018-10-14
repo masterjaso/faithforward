@@ -1,0 +1,37 @@
+{
+  "name": "faithforward",
+  "version": "0.0.1",
+  "description": "Social Media for the faith community",
+  "main": "server.js",
+  "scripts": {
+    "start": "npm install | nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/masterjaso/faithforward.git"
+  },
+  "author": "Jason Neal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/masterjaso/faithforward/issues"
+  },
+  "homepage": "https://github.com/masterjaso/faithforward#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "busboy-body-parser": "^0.3.2",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^2.0.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "gulp": "^4.0.0",
+    "mongodb": "^3.1.8",
+    "morgan": "~1.9.0",
+    "nodemon": "^1.17.5",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "pug": "^2.0.3",
+    "serve-favicon": "~2.4.5"
+  }
+}
