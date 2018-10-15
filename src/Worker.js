@@ -3,7 +3,7 @@ const util = require('util');
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
-const logger = require('morgan');
+const morgan = require('morgan');
 const bodyParser = require('busboy-body-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
@@ -44,9 +44,12 @@ async function startServer(){
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'pug');
 
+  
+
   //Application configuration
   app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
-  app.use(logger('dev'));
+  app.get('/favicon.ico', (req, res) => res.send('204'));   //Quick escape favicon only requests
+  app.use(morgan('dev'));
   app.use(bodyParser());
   app.use(session({
     secret: process.env.sessionSecret,
@@ -61,7 +64,7 @@ async function startServer(){
 
 
   //Core Middleware
-  app.use('*', function(req, res, next){
+  app.use('*', loggedIn, function(req, res, next){
     //Set flash message and clear buffer in any
     req.flashMsg = req.flash('msg').pop();
     
@@ -73,6 +76,12 @@ async function startServer(){
 
   //Invoke routes
   app.use('/', require('./routes'));
+
+  //Handle log out events and re-route to ROOT
+  app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {
@@ -95,6 +104,19 @@ async function startServer(){
   //Start webserver listening on PORT/IP
   console.log('Starting server at:  ' + process.env.IP + ':' + process.env.PORT);
   app.listen(process.env.PORT, process.env.IP) 
+}
+
+
+/****Helper Functions****/
+
+
+function loggedIn(req, res, next) {
+  if (req.user) {
+    req.authCheck = true;
+  } else {
+    req.authCheck = false;
+  }
+  next();
 }
 
 module.exports = app;

@@ -1,13 +1,17 @@
-extends layout.pug
+extends layout
 
 block head
 
 
 block header
-  p This is the header
+  div.container
+    h1.text-center Oops!  Something went wrong...
+    h1.text-center= message
+    h2.text-center= error.status
+    pre #{error.stack}
+
 
 block content
-  p Behold the content
 
 block feature0
   p Feature 0 reporting for duty
